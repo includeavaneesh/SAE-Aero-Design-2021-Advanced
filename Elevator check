@@ -1,1 +1,50 @@
-
+clc
+clear all
+Vmax = 185; % m/s
+Sw=70; % m � 2
+Sh = 16; % m � 2Cbar= 2.96; % m
+Vs = 44; %m/sec
+Tmax= 56000; %N
+rho = 1.225; % kg/m � 3
+Cmo = 0.05;
+zT = -0.3; %m
+CLa = 5.2; %1/rad
+CLah = 4.3; % 1/rad
+CLa_wf = CLa;
+g = 9.81; %m/s � 2
+m = 20000; % kg
+CLo = 0.24;
+taw = 0.664;
+etha_h = 0.96;
+lh = 11.3; % m from main landing gear
+de_da = 0.454;
+CLdE=-CLah*etha_h*Sh*taw/Sw;
+% Most aft cg
+xcg = 0.5; % m from main landing gear
+h_to_ho = 0.3/Cbar; % m
+l_h1 = lh+xcg; %m
+VH1 = (l_h1*Sh)/(Sw*Cbar);
+CmdE1 = -CLah*etha_h*VH1*taw;
+Cma1 = CLa_wf*h_to_ho-CLah*etha_h*Sh*(l_h1/Cbar)*(1-de_da)/Sw;
+% Most forward cg
+xcg = 1.1; % m from main landing gear
+h_to_ho = -0.3/Cbar; % m
+l_h2 = lh+xcg; % m
+VH2 = (l_h2*Sh)/(Sw*Cbar);
+CmdE2 = -CLah*etha_h*VH2*taw;
+Cma2 = CLa_wf*h_to_ho-CLah*etha_h*Sh*(l_h2/Cbar)*(1-de_da)/Sw;
+i =1;
+for U1=Vs:Vmax;
+qbar=0.5*rho*U1^2;
+CL1= (m*g)/(qbar*Sw);
+f1=((Tmax*zT)/(qbar*Sw*Cbar))+Cmo;
+dE1(i)=-((f1*CLa)+(CL1-CLo)*Cma1)/(CLa*CmdE1-Cma1*CLdE);
+dE2(i)=-((f1*CLa)+(CL1-CLo)*Cma2)/(CLa*CmdE2-Cma2*CLdE);
+V(i)=U1;
+i=i+1;
+end
+plot(V/0.5144,dE1*57.3,'o',V/0.5144,dE2*57.3,'*')
+grid
+xlabel ('Speed (knot)')
+ylabel ('\delta_E (deg)')
+legend('Most aft cg','Most forward cg')
