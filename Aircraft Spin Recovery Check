@@ -1,23 +1,23 @@
 clc
 CLav=2.313;
 S=1.401;
-Sv=0.1119;
+Sv=0.1196;
 b=2.57;
 bv=0.395;
 bR=0.86*bv;
 Cv=0.3;
-CR=0.397*Cv;%%%%%%%%%%%%%check
+CR=0.397*Cv;
 nv=1;
 Vs=9.8;
 Ixxp=4.07693;
 Izzp=6.57255;
 Ixzp=-0.01414;
-a=0.3054;%%%%alpha
+a=0.3054;
 lv=1.204;
 dRmax=30;
 Tr=0.6;
 bRe=bR;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 A=[cos(a)*cos(a) sin(a)*sin(a) -1*sin(2*a);sin(a)*sin(a) cos(a)*cos(a) sin(2*a); 0.5*sin(2*a) -0.5*sin(2*a) cos(2*a)];
 
 B=[Ixxp;Izzp;Ixzp];
@@ -25,10 +25,10 @@ X=linsolve(A,B);
 Ixxw=X(1);
 Izzw=X(2);
 Ixzw=X(3);
-NSR=(((Ixxw*Izzw)-((Ixzw)^2))/Ixxw)*0.79;
+NSR=(((Ixxw*Izzw)-((Ixzw)^2))/Ixxw)*0.84;
 Cv=Sv/bv;
 Vv=((lv*Sv)/(b*S));
-CndR=-1*CLav*Vv*nv*Tr*(bRe/bv);%%%%%%%%%%warning
+CndR=-1*CLav*Vv*nv*Tr*(bRe/bv);
 dR=((2*NSR)/(1.225*Vs*Vs*S*b*CndR));
 dR_deg=-1*dR*57.3;
 disp(dR_deg);
